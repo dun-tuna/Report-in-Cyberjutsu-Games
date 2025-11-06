@@ -40,7 +40,7 @@ Lỗ hồng này gây ra hậu quả nghiêm trọng, gây thất thoát doanh t
 
 Tại file `orderController.js` tại dòng 64, chương trình đã thực hiện tính balance được nhận trực tiếp từ client thay vì lấy dữ liệu đó từ database , từ đó attacker hoàn toàn có thể thao túng giá cả của price để có thể lấy bất cứ sản phẩm nào hắn ta muốn
 
-![image.png](image/image1.png)
+![image.png](image/image%201.png)
 
 ### 3. Tiến hành khai thác:
 
