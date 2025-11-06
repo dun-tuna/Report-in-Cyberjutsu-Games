@@ -46,11 +46,11 @@ Tại file `orderController.js` tại dòng 64, chương trình đã thực hi�
 
 Khi tiến hành mua 1 sản phẩm sẽ có gói tin `POST` được gửi đi như thế này:
 
-![image.png](image%201.png)
+![image.png](./image/image%201.png)
 
 Tuy nhiên ở đây ta có thể sửa giá trị của `"id":1` và `"price":0` ta đã có thể mua được Flag với giá 0đ
 
-![image.png](image%202.png)
+![image.png](./image/image%202.png)
 
 Ta đã thành công lấy được **Flag1:CBJS{ab413281962b76090c0db9051c05d2f2}**
 
@@ -74,21 +74,21 @@ Lỗ hổng này cực kì nghiêm trọng, có thể dẫn đến lộ mã ngu�
 
 Tại file `imageController.js` ở tại dòng 30, thấy rằng khi muốn lấy hình ảnh để hiển thị cho user server sẽ gửi 1 request tới 1 URL để get hình ảnh về cho user. Tuy nhiên ở đây không hề có bất cứ 1 biện pháp lọc input nào.
 
-![image.png](image%203.png)
+![image.png](./image/image%203.png)
 
 ### 3. Tiến hành khai thác:
 
 Khi thử truy cập vào file `/etc/passwd` server báo lỗi nhưng lại để lộ ra các file tồn tại trong hệ thống
 
-![image.png](image%204.png)
+![image.png](./image/image%204.png)
 
 Thử truy cập vào file `/usr/app/src/controllers/imageController.js` và thấy rằng ssrf thực sự hoạt động 
 
-![image.png](image%205.png)
+![image.png](./image/image%205.png)
 
 Ta tiếp tục vào file `/usr/app/src/.env` để kiểm tra môi trường của server
 
-![image.png](image%206.png)
+![image.png](./image/image%206.png)
 
 Tại đây ta thu được **FLAG2=CBJS{4d2c7fee2a055bd1e319826229f019db}.** 
 
@@ -129,17 +129,17 @@ Lỗ hổng này khiến thông tin cá nhân và nhạy cảm như là: usernam
 
 Ta lấy token có được khi login server và đẩy lên [`jwt.io`](http://jwt.io) , ta sẽ thu được thông tin dùng để xác thực của user 
 
-![image.png](image%207.png)
+![image.png](./image/image%207.png)
 
   
 
-![image.png](image%208.png)
+![image.png](./image/image%208.png)
 
 Sau đó ta tiến hành sửa `"id":1` và `"username":conmeo` ta sẽ thu được token của user con mèo. Sử dụng chính token đó để truy cập vào và xem order của user `conmeo` , sử dụng `GET /api/v2/users/1/orders` và `x-access-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJjb25tZW8iLCJyb2xlIjoidXNlciIsImlhdCI6MTc2MTg3MTgzMywiZXhwIjoxNzYyNDc2NjMzfQ.bL_S3rnQ3FuHepPgCC_4AyRZhX5FjNZbfCnaGXIfLkI`  để có thể vượt quyền 
 
-![image.png](image%209.png)
+![image.png](./image/image%209.png)
 
-![image.png](image%2010.png)
+![image.png](./image/image%2010.png)
 
 Ta đã có thể truy cập được vào orders của `user:conmeo` và thấy được rằng ở đây có 1 flag **FLAG3:CBJS{da825564095d09d173359085b3fe58c0}**
 
@@ -165,17 +165,17 @@ Lỗ hổng này có thể làm dữ liệu cá nhân của user bị lộ, ngo�
 
 Tại file `/models/user.js` dòng 25 ta thấy rằng đầu vào email ở đây không được kiểm tra cũng như là không có blacklist hoặc withlist giới hạn gì cả
 
-![image.png](image%2011.png)
+![image.png](./image/image%2011.png)
 
 ### 3. Tiến hành khai thác:
 
 Ở phần trên khi leak được `env` của system ta thấy được thông tin rằng Database ở đây là `MYSQL_DATABASE=ecommerce`
 
-![image.png](image%2012.png)
+![image.png](./image/image%2012.png)
 
 Ta thực hiện câu truy vấn `x@' UNION SELECT table_name FROM information_schema.tables WHERE table_schema='ecommerce'--` để kiểm tra xem UNION SELECT có hoạt động không thì nhận về được kết quả `Error: The used SELECT statements have a different number of columns` , điều này cho thấy rằng `UNION SELECT` hoạt động tốt tuy nhiên ở đây báo lỗi rằng số cột của 2 bảng không trùng nhau
 
-![image.png](image%2013.png)
+![image.png](./image/image%2013.png)
 
 Sau nhiều lần thử thì ta có được kết luận rằng câu truy vấn này có 8 cột,từ đó những dữ kiện đó ta sẽ thực hiện câu truy vấn SQL injection 
 
@@ -185,7 +185,7 @@ Sau nhiều lần thử thì ta có được kết luận rằng câu truy vấn
 
 Sau khi thực hiện được câu truy vấn này ta thấy được respone được trả về là `This feature is not implemented yet` điều này cho thấy rằng bảng flags có tồn tại ở đây
 
-![image.png](image%2014.png)
+![image.png](./image/image%2014.png)
 
 Tuy nhiên ta không thể lấy trực tiếp flag từ câu truy vấn vì server không trả về kết quả của câu truy vấn mà chỉ trả về True/False
 
@@ -276,10 +276,10 @@ while True:
     # Optional: add delay to avoid rate limiting
     time.sleep(0.2)
 
-print(f"\n[✅] Final flag: {flag}")
+print(f"\n[] Final flag: {flag}")
 ```
 
-![image.png](image%2015.png)
+![image.png](./image/image%2015.png)
 
 Sau khi thực hiện Bruce Force thành công ta thu được nội dung của **FLAG4:CBJS{76906e5c78c1f04ac35a143e4de23a77}**
 
@@ -304,27 +304,27 @@ Lỗ hổng này có tác động cực kì nghiệm trọng đến hệ thông,
 
 Tại file `pluginController.js` dòng 57 của file thực hiện execute function được truyền vào `plugin.execute();` tuy nhiên ở đây không hề có bất kì một biện pháp lọc input nào.
 
-![image.png](image%2016.png)
+![image.png](./image/image%2016.png)
 
 ### 3. Tiến hành khai thác:
 
 Trước tiên ta tạo 1 token fake admin để có thể truy cập vào các chức năng của admin
 
-![image.png](image%2017.png)
+![image.png](./image/image%2017.png)
 
-![image.png](image%2018.png)
+![image.png](./image/image%2018.png)
 
 Sau khi truy cập được vào admin panel thành công, ta tiếp tục truy cập vào plugin để thực hiện upload file và tiến hành RCE. Tuy nhiên chức năng upload không hoạt động, kiểm tra source code của file thì ta thấy được rằng phần upload file đã bị command
 
-![image.png](image%2019.png)
+![image.png](./image/image%2019.png)
 
 Tại file `pluginServices.js` ta thấy lại tìm được một hàm khác có khả năng upload file và lần này không bị command
 
-![image.png](image%2020.png)
+![image.png](./image/image%2020.png)
 
 Ta thử tải  `example-plugin.js` về, ta thấy được cấu trúc của file plugin 
 
-![image.png](image%2021.png)
+![image.png](./image/image%2021.png)
 
 Từ mẫu này ta sẽ viết 1 plugin của mình nhằm mục đích RCE khai thác server. Trước tiên toạn code này sẽ thực hiện câu lệnh `ls /` và gửi kết quả về webhook của mình 
 
@@ -356,11 +356,11 @@ module.exports = {
 
 Sau đó ta sẽ thực hiện upload file lên server để có thể RCE. Kiếm tra file `v2/index.js` của server, tìm thấy được `uploadPlugin` nhưng một lần nữa lại bị command ở dòng 37
 
-![image.png](image%2022.png)
+![image.png](./image/image%2022.png)
 
 Tuy nhiên tại `v1/index.js` thì chức năng `uploadPlugin` có xuất hiện và không bị command
 
-![image.png](image%2023.png)
+![image.png](./image/image%2023.png)
 
 Từ những thông tin đó, ta tạo một file python có chức năng gửi request POST đến server với chức năng upload file payload `plugin2.js` của ta lên server
 
@@ -381,13 +381,13 @@ print(result.text)
 
 Sau thực hiện thực thi đoạn code python, ta refresh lại trang web và thấy được rằng file `plugin2.js` đã được xuất hiện trên đó, tiếp tục thực thi file. Kiểm tra lại trang webhook và đã nhận được request tới với nội dụng là cái file và thư mục của đường dân `/` trên server
 
-![image.png](image%2024.png)
+![image.png](./image/image%2024.png)
 
-![image.png](image%2025.png)
+![image.png](./image/image%2025.png)
 
 Tại đây ta thu được tên file chứa flag là `FLAG_4277146a23195c2a` , bây giờ sửa lại payload thành     `cat /FLAG_4277146a23195c2a` . Sau đó upload file lên một lần nữa và thực thi file mới up lên
 
-![image.png](image%2026.png)
+![image.png](./image/image%2026.png)
 
 Ta sẽ thu được **FLAG5:CBJS{632f7879b5bea6fa83696b81e44e3943}**
 
