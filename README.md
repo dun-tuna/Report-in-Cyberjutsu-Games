@@ -1,1 +1,1 @@
-I use this Repositorie for purpose upload writup and report in CyberJutsu
+I use this Repositorie for purpose upload writeup and report in CyberJutsu
